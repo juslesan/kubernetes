@@ -11,7 +11,7 @@ app.use(async ctx => {
   console.log('--------------------')
   console.log(`Responding with ${stringNow}`)
   ctx.body = `Hello World!!! ${startingString}: ${stringNow}`
-});
+})
 
 console.log(`Server started in port ${PORT}`)
 app.listen(PORT)
