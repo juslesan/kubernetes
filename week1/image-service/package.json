@@ -1,5 +1,5 @@
 {
-  "name": "main",
+  "name": "image-service",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -8,5 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.0",
+    "koa": "^2.13.0"
+  }
 }

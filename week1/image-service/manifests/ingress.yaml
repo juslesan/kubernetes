@@ -1,0 +1,12 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: iamge-response-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /image
+        backend:
+          serviceName: image-svc
+          servicePort: 2345
