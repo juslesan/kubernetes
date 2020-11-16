@@ -1,0 +1,13 @@
+html
+  head
+    title project
+    style
+      include style.css
+  body
+    img(src='http://localhost:8081/image' class='dailyImg')
+    form(action="http://localhost:8081/project/" method="POST")
+      input(type="text" name="todo" id="todo" value= '' placeholder="" maxlength="140")
+      input(type="submit") 
+    ol
+      each val in todos
+        li= val

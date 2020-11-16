@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: proj-postgres-ss
+  namespace: project
+  labels:
+    app: proj-postgres
+spec:
+  serviceName: proj-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proj-postgres
+  template:
+    metadata:
+      labels:
+        app: proj-postgres
+    spec:
+      containers:
+      - name: proj-postgres
+        image: postgres:13.0
+        env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: proj-postgre
+                key: POSTGRESQL_PASSWORD
+          - name: POSTGRES_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: proj-configmap
+                key: postgresql_database
+          - name: POSTGRES_USER
+            valueFrom:
+              configMapKeyRef:
+                name: proj-configmap
+                key: postgresql_user
+        ports:
+        - containerPort: 5432
+          name: proj-postgres
+        volumeMounts:
+          - name: todo
+            mountPath: /var/lib/postgresql/todo
+  volumeClaimTemplates:
+    - metadata:
+        name: todo
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 100Mi

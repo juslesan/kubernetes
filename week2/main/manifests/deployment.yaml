@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: main
+  name: main
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main
+  template:
+    metadata:
+      labels:
+        app: main
+    spec:
+      volumes:
+        - name: shared-files
+          persistentVolumeClaim:
+            claimName: files-claim
+      containers:
+        - name: main-reader
+          image: juslesan/main-reader
+          volumeMounts:
+          - name: shared-files
+            mountPath: /usr/src/app/files
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: main-configmap
+                  key: mainconfig
+        - name: main-writer
+          image: juslesan/main-writer
+          volumeMounts:
+          - name: shared-files
+            mountPath: /usr/src/app/files
