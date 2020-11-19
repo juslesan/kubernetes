@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
       const newTodos = await axios.post('http://todo-back-svc', req.body)
       todos = newTodos.data
       console.log(`${req.body} added to database`)
-      res.redirect("/project")
+      res.redirect("/")
     }
   } catch (err) {
     res.json(err)

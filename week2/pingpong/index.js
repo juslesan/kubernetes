@@ -65,6 +65,7 @@ app.use(async ctx => {
   } catch (e) {
     console.error(e)
   }
+  ctx.status = 200
   ctx.body = `${counter}`
 })
 
