@@ -1,8 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: proj-configmap
-  namespace: project
-data:
-  postgresql_database: admin
-  postgresql_user: admin
