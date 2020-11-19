@@ -1,0 +1,13 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: image-response-ingress
+  namespace: project
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /image
+        backend:
+          serviceName: image-svc
+          servicePort: 2345
