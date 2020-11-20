@@ -61,6 +61,13 @@ jobs:
 # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
+        kubectl create namespace ${GITHUB_REF#refs/heads/} || true
+        kubectl config set-context --current --namespace=${GITHUB_REF#refs/heads/}
+        ./kustomize edit set namespace ${GITHUB_REF#refs/heads/}
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$TODO_FRONT_IMAGE:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$TODO_BACK_IMAGE:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$TODO_IMAGE_IMAGE:$GITHUB_SHA
+        ./kustomize edit set image gcr.io/PROJECT_ID/IMAGE:TAG=gcr.io/$PROJECT_ID/$TODO_CRON_IMAGE:$GITHUB_SHA
         kubectl kustomize course/project
         kubectl apply -k course/project
         kubectl get services -o wide
