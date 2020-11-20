@@ -35,4 +35,4 @@ I decided to continue using Postgre with PersistentVolumeClaims. This is mainly 
 
 ## Exercise 3.10: Project v1.6
 
-[logging](logs.png)
+![logging](logs.png)
