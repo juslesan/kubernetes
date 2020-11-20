@@ -38,6 +38,7 @@ jobs:
 
     - name: Build
       run: |-
+        ls
         docker build --tag "gcr.io/$PROJECT_ID/$TODO_FRONT_IMAGE:$GITHUB_SHA" todo
         docker build --tag "gcr.io/$PROJECT_ID/$TODO_BACK_IMAGE:$GITHUB_SHA" todo-back
         docker build --tag "gcr.io/$PROJECT_ID/$TODO_IMAGE_IMAGE:$GITHUB_SHA" image-service
