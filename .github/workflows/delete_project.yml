@@ -17,7 +17,7 @@ env:
 
 jobs:
   setup-build-publish-deploy:
-    name: Setup, Build, Publish, and Deploy
+    name: Setup, Delete
     runs-on: ubuntu-latest
   
     steps:
@@ -35,13 +35,7 @@ jobs:
     - run: |-
         gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
 
-# Set up kustomize
-    - name: Set up Kustomize
-      run: |-
-        curl -sfLo kustomize https://github.com/kubernetes-sigs/kustomize/releases/download/v3.1.0/kustomize_3.1.0_linux_amd64
-        chmod u+x ./kustomize
-
 # Deploy the Docker image to the GKE cluster
-    - name: Deploy
+    - name: Delete
       run: |-
         kubectl delete namespace project-${{ github.event.ref }} || true
