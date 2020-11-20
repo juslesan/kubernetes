@@ -5,6 +5,7 @@ on:
     branches: 
       - main
     paths:
+      - '.github/workflows/project.yml'
       - 'course/project/**'
 
 env:
