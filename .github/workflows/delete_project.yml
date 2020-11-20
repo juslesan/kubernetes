@@ -1,4 +1,4 @@
-name: Release Project
+name: Delete Branch Release
 
 on:
   delete:
@@ -44,4 +44,4 @@ jobs:
 # Deploy the Docker image to the GKE cluster
     - name: Deploy
       run: |-
-        kubectl delete namespace project-${github.event.ref} || true
+        kubectl delete namespace project-${{ github.event.ref }} || true
