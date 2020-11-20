@@ -28,17 +28,19 @@ router.post("/", async (req, res) => {
       res.json({error: 'Todo must be under 140 characters'})
     } else {
       const newTodos = await axios.post('http://todo-back-svc', req.body)
+      console.log(`${req.body} add todo request sent`)
       todos = newTodos.data
-      console.log(`${req.body} added to database`)
       res.redirect("/")
     }
   } catch (err) {
+    console.log(`${req.body} add todo request failed`)
     res.json(err)
   }
 })
 
 router.get("/", async (req, res) => {
   await getTodos()
+  console.log('GET / received')
   res.render("index", { todos })
 })
 

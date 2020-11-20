@@ -50,6 +50,7 @@ const initialValueInterval = setInterval(async () => {
 }, 1000)
 
 router.get("/", async (req, res) => {
+  console.log('GET / received')
   await pool.query('SELECT todo FROM todos', async (err, res) => {
     if (err) {
       console.log(err)
@@ -64,12 +65,13 @@ router.get("/", async (req, res) => {
 })
 
 router.post("/", async (req, res) => {
+  console.log('POST / received')
   if (req.body.todo) {
     await pool.query(`INSERT INTO todos (id, todo) VALUES (DEFAULT, '${req.body.todo}')`, (err, res) => {
       if (err) {
         console.log(err)
       } else {
-        console.log(res)
+        console.log(req.body.todo, 'Added to DB')
         todos.push(req.body.todo)
       }
     })
