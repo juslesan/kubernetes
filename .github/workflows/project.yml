@@ -2,8 +2,6 @@ name: Release Project
 
 on:
   push:
-    branches: 
-      - *
     paths:
       - '.github/workflows/project.yml'
       - 'course/project/**'
