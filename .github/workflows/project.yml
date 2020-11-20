@@ -63,8 +63,4 @@ jobs:
       run: |-
         kubectl kustomize course/project
         kubectl apply -k course/project
-        kubectl rollout status deployment/$TODO_FRONT_IMAGE
-        kubectl rollout status deployment/$TODO_BACK_IMAGE
-        kubectl rollout status deployment/$TODO_IMAGE_IMAGE
-        kubectl rollout status deployment/$TODO_CRON_IMAGE
         kubectl get services -o wide
