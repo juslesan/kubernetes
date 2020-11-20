@@ -4,8 +4,8 @@ html
     style
       include style.css
   body
-    img(src='http://34.120.23.126/image' class='dailyImg')
-    form(action="http://34.120.23.126/" method="POST")
+    img(src='/image' class='dailyImg')
+    form(action="/" method="POST")
       input(type="text" name="todo" id="todo" value= '' placeholder="" maxlength="140")
       input(type="submit") 
     ol
