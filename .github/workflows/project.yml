@@ -4,8 +4,8 @@ on:
   push:
     branches: 
       - main
-    paths:
-      - "course/project/*"
+    # paths:
+    #   - 'course/project/**'
 
 env:
   PROJECT_ID: ${{ secrets.GKE_PROJECT }}
@@ -24,7 +24,7 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
+      
     - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
       with:
         version: '290.0.1'
