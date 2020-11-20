@@ -3,7 +3,7 @@ name: Release Project
 on:
   push:
     branches: 
-      - master
+      - main
     paths:
       - 'course/project/**'
 
