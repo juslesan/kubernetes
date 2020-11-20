@@ -16,7 +16,7 @@ const dayPassed = (now) => {
 
 const getFile = async () => new Promise(res => {
   fs.readFile(filePath, (err, buffer) => {
-    if (err) return console.log('FAILED TO READ FILE', '----------------', err)
+    if (err) return console.log('FAILED TO READ FILE', '-----------------', err)
     res(buffer)
   })
 })
