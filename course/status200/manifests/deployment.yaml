@@ -16,3 +16,7 @@ spec:
       containers:
         - name: status200
           image: juslesan/status200
+          resources:
+            limits:
+              cpu: "50m"
+              memory: "100Mi"

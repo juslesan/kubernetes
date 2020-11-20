@@ -27,3 +27,7 @@ spec:
               configMapKeyRef:
                 name: main-configmap
                 key: postgresql_database
+          resources:
+            limits:
+              cpu: "100m"
+              memory: "100Mi"

@@ -16,3 +16,7 @@ spec:
       containers:
         - name: todo
           image: PROJECT/FRONT_IMAGE
+          resources:
+            limits:
+              cpu: "250m"
+              memory: "200Mi"

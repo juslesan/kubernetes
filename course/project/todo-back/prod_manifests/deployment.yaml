@@ -27,3 +27,7 @@ spec:
               configMapKeyRef:
                 name: proj-configmap
                 key: postgresql_database
+          resources:
+            limits:
+              cpu: "150m"
+              memory: "200Mi"
