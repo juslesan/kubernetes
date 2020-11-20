@@ -32,3 +32,7 @@ University of Helsinki open https://devopswithkubernetes.com/part0/
 ## Exercise 3.07: Commitment
 
 I decided to continue using Postgre with PersistentVolumeClaims. This is mainly because I already have the existing configuration. I would also like to get some additional experience with configuring postgre with kubernets isntead of using DBaaS.
+
+## Exercise 3.10: Project v1.6
+
+[logging](logs.png)
