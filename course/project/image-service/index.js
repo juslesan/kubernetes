@@ -48,7 +48,6 @@ app.use(async ctx => {
     ctx.status = 200
   } else {
     await findAFile()
-
     ctx.body = await getFile()
     ctx.set('Content-type', 'image/jpeg')
     ctx.status = 200
