@@ -3,7 +3,7 @@ const express = require('express')
 const app = new express()
 const { Pool } = require('pg')
 const config = require('./config')
-
+const axios = require('axios')
 const PORT = process.env.PORT || 3011
 const router = express.Router()
 
@@ -79,6 +79,11 @@ router.post("/", async (req, res) => {
   } else {
     res.json(todos)
   }
+})
+
+router.get("/health", async (req, res) => {
+  const dbRes = await pool.query('SELECT todo FROM todos')
+  console.log(dbRes)
 })
 
 app.use("/", router)
