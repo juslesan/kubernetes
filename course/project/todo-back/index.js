@@ -3,7 +3,6 @@ const express = require('express')
 const app = new express()
 const { Pool } = require('pg')
 const config = require('./config')
-const axios = require('axios')
 const PORT = process.env.PORT || 3011
 const router = express.Router()
 
