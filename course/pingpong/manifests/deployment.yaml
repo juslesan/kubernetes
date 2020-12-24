@@ -30,4 +30,10 @@ spec:
           resources:
             limits:
               cpu: "100m"
-              memory: "100Mi"
+              memory: "200Mi"
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /
+               port: 8080

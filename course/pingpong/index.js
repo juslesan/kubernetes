@@ -56,6 +56,7 @@ app.use(async ctx => {
     if (err) {
       console.log(err)
     }
+    ctx.status = 404
     return res
   })
   try {

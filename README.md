@@ -36,3 +36,7 @@ I decided to continue using Postgre with PersistentVolumeClaims. This is mainly 
 ## Exercise 3.10: Project v1.6
 
 ![logging](logs.png)
+
+## Exercise 4.03
+
+count(kube_pod_info{namespace="prometheus", created_by_kind="StatefulSet"})

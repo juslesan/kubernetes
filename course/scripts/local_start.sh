@@ -14,6 +14,8 @@ kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/downloa
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/master/hack/testdata/recursive/pod/pod/busybox.yaml
 
+helm install my-nats nats/nats
+
 echo ------------------------------
 echo Starting main application
 echo ------------------------------
@@ -62,6 +64,12 @@ echo ------------------------------
 echo Starting project 
 echo ------------------------------
 
+kubectl create namespace argo-rollouts
+
+kubectl apply -n argo-rollouts -f https://raw.githubusercontent.com/argoproj/argo-rollouts/stable/manifests/install.yaml
+
+kubectl apply -f project/manifests/analysistemplate.yml
+
 kubectl apply -f project/image-service/manifests/persistentvolume.yaml
 
 kubectl apply -f project/image-service/manifests/persistentvolumeclaim.yaml
@@ -71,6 +79,14 @@ kubectl apply -f project/image-service/manifests/ingress.yaml
 kubectl apply -f project/image-service/manifests/service.yaml
 
 kubectl apply -f project/image-service/manifests/deployment.yaml
+
+echo ------------------------------
+
+kubeseal -o yaml < project/broadcaster/manifests/secret.yml > project/broadcaster/manifests/sealedsecret.yaml
+
+kubectl apply -f project/broadcaster/manifests/sealedsecret.yaml
+
+kubectl apply -f project/broadcaster/manifests/deployment.yml
 
 echo ------------------------------
 

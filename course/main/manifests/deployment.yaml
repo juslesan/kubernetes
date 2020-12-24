@@ -29,6 +29,12 @@ spec:
                 configMapKeyRef:
                   name: main-configmap
                   key: mainconfig
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+               path: /health
+               port: 3000
         - name: main-writer
           image: juslesan/main-writer
           volumeMounts:

@@ -1,5 +1,5 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: argoproj.io/v1alpha1
+kind: Rollout
 metadata:
   name: todo
   namespace: project
@@ -8,6 +8,16 @@ spec:
   selector:
     matchLabels:
       app: todo
+  strategy:
+    canary:
+      steps:
+      - setWeight: 50
+      - analysis:
+          templates:
+          - templateName: cpu-rate
+      - pause:
+          duration: 10m
+      - setWeight: 50
   template:
     metadata:
       labels:

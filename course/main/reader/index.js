@@ -35,5 +35,21 @@ app.use("/", async (req, res) => {
   res.render("index", { data, pings: `Ping / Pong ${pings}`, message: config.message},)
 })
 
+app.use("/health", async (req, res) => {
+  try {
+    const res = await axios.get('http://pingpong-svc')
+    if (res.status !== 200) {
+      console.log('health probe failed!')
+      res.status(500).send()
+    } else {
+      console.log('health probe successful')
+      res.status(200).send()
+    }
+  } catch (e) {
+    console.log(e)
+    res.status(500).send()
+  }
+})
+
 console.log(`Server started in port ${PORT}`)
 app.listen(PORT)

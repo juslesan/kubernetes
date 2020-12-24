@@ -5,6 +5,11 @@ const { Pool } = require('pg')
 const config = require('./config')
 const PORT = process.env.PORT || 3011
 const router = express.Router()
+const NATS = require('nats')
+
+const nc = NATS.connect({
+  url: process.env.NATS_URL || 'nats://nats:4222'
+})
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -20,7 +25,7 @@ const pool = new Pool({
 })
 
 const createTable = async () => {
-  await pool.query('CREATE TABLE todos (id serial NOT NULL, todo VARCHAR (150))', (err, res) => {
+  await pool.query('CREATE TABLE todos (id serial NOT NULL, todo VARCHAR (150), done boolean NOT NULL)', (err, res) => {
     if (err) {
       console.log(err)
     } else {
@@ -38,11 +43,12 @@ const initialValueInterval = setInterval(async () => {
     } else {
       try {
         todos = res.rows.map((val) => {
-          return val.todo
+          return val
         })
       } catch (e) {
         console.log(e)
       }
+      let ready = true
       clearInterval(initialValueInterval)
     }
   })
@@ -50,12 +56,13 @@ const initialValueInterval = setInterval(async () => {
 
 router.get("/", async (req, res) => {
   console.log('GET / received')
-  await pool.query('SELECT todo FROM todos', async (err, res) => {
+  await pool.query('SELECT * FROM todos', async (err, res) => {
     if (err) {
       console.log(err)
     } else {
+      console.log(res.rows)
       todos = res.rows.map((val) => {
-        return val.todo
+        return val
       })
       console.log(todos)
     }
@@ -66,23 +73,58 @@ router.get("/", async (req, res) => {
 router.post("/", async (req, res) => {
   console.log('POST / received')
   if (req.body.todo) {
-    await pool.query(`INSERT INTO todos (id, todo) VALUES (DEFAULT, '${req.body.todo}')`, (err, res) => {
-      if (err) {
-        console.log(err)
-      } else {
-        console.log(req.body.todo, 'Added to DB')
-        todos.push(req.body.todo)
-      }
-    })
-    res.json(todos)
-  } else {
-    res.json(todos)
+    try {
+      await pool.query(`INSERT INTO todos (id, todo, done) VALUES (DEFAULT, '${req.body.todo}', 'false')`)
+      await pool.query('SELECT * FROM todos', async (err, res) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log(res.rows)
+          todos = res.rows.map((val) => {
+            return val
+          })
+          console.log(todos)
+        }
+      })
+      nc.publish('todo_status', JSON.stringify({message: `new todo '${req.body.todo}' added`}))
+      res.json(todos)
+    } catch (err) {
+      console.log('inserting into db failed')
+      res.status(500).send()
+    }
   }
 })
 
 router.get("/health", async (req, res) => {
-  const dbRes = await pool.query('SELECT todo FROM todos')
-  console.log(dbRes)
+  try {
+    const dbRes = await pool.query('SELECT todo FROM todos')
+    if (!dbRes.code) {
+      console.log('DB ready')
+      res.status(200).send()
+    } else {
+      console.log('DB not ready yet')
+      res.status(500).send()
+    }
+  } catch (err) {
+    console.log(err)
+    res.status(500).send()
+  }
+})
+
+router.put("/todos/:id", async (req, res) => {
+  console.log('Request Id:', req.params.id)
+  try {
+    await pool.query(`UPDATE todos SET done = TRUE WHERE id=${req.params.id}`)
+    nc.publish('todo_status', JSON.stringify(
+      {
+        message: `todo with id ${req.params.id} set to done`
+      }
+    ))
+    res.status(200).send()
+  } catch (err) {
+    console.error(err)
+    res.status(501).send()
+  }
 })
 
 app.use("/", router)

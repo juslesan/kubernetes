@@ -29,19 +29,42 @@ router.post("/", async (req, res) => {
     } else {
       const newTodos = await axios.post('http://todo-back-svc', req.body)
       console.log(`${req.body} add todo request sent`)
-      todos = newTodos.data
-      res.redirect("/")
+      res.redirect("/project")
     }
   } catch (err) {
     console.log(`${req.body} add todo request failed`)
-    res.json(err)
+    res.redirect("/project")
   }
+})
+
+router.get("/todos/:id", async (req, res) => {
+  console.log(req.params.id)
+  try {
+    await axios.put(`http://todo-back-svc/todos/${req.params.id}`)
+    res.redirect("/project")
+  } catch (err) {
+    console.error(err)
+  }
+    
 })
 
 router.get("/", async (req, res) => {
   await getTodos()
   console.log('GET / received')
   res.render("index", { todos })
+  console.log(todos)
+})
+
+router.get("/health", async (req, res) => {
+  try {
+    const res1 = await axios.get('http://todo-back-svc')
+    const res2 = await axios.get('http://image-svc')
+    res.status(200).send()
+    console.log('Health probe passed')
+  } catch (err) {
+    console.log(err) 
+    res.status(500).send()
+  }
 })
 
 app.use("/", router)

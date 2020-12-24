@@ -10,3 +10,7 @@ kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/downloa
 kubectl create namespace main
 
 kubectl create namespace project
+
+kubectl create namespace prometheus
+
+helm install prometheus-community/kube-prometheus-stack --generate-name --namespace prometheus

@@ -5,9 +5,14 @@ html
       include style.css
   body
     img(src='/image' class='dailyImg')
-    form(action="/" method="POST")
+    form(action="/project/" method="POST")
       input(type="text" name="todo" id="todo" value= '' placeholder="" maxlength="140")
       input(type="submit") 
     ol
       each val in todos
-        li= val
+        li= val.todo
+        if val.done === false
+          form(action=`/project/todos/${val.id}`, method="GET")
+            input(type="submit", value='Mark as done') 
+        else 
+          p done
