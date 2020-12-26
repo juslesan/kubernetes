@@ -1,0 +1,20 @@
+# permissions for end users to view dummysites.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: dummysite-viewer-role
+rules:
+- apiGroups:
+  - dummysite.ctrl.dummysite.ctrl
+  resources:
+  - dummysites
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - dummysite.ctrl.dummysite.ctrl
+  resources:
+  - dummysites/status
+  verbs:
+  - get

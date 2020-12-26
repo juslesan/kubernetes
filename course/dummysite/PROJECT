@@ -1,0 +1,7 @@
+domain: dummysite.ctrl
+repo: dummysite.ctrl
+resources:
+- group: dummysite.ctrl
+  kind: Dummysite
+  version: v1
+version: "2"

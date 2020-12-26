@@ -115,3 +115,12 @@ kubectl apply -f project/todo/manifests/ingress.yaml
 kubectl apply -f project/todo/manifests/service.yaml
 
 kubectl apply -f project/todo/manifests/deployment.yaml
+
+echo start dummysite ------------------------------
+
+kubectl create namespace dumdum
+
+kubectl apply -f dummysite/manifests
+
+kubectl apply -f dummy/manifests
+
