@@ -16,6 +16,8 @@ kubectl apply -f https://raw.githubusercontent.com/kubernetes/kubernetes/master/
 
 helm install my-nats nats/nats
 
+linkerd install | kubectl apply -f -
+
 echo ------------------------------
 echo Starting main application
 echo ------------------------------

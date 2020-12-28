@@ -1,5 +1,5 @@
-apiVersion: argoproj.io/v1alpha1
-kind: Rollout
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: image-service
   namespace: project
@@ -8,16 +8,6 @@ spec:
   selector:
     matchLabels:
       app: image-service
-  strategy:
-    canary:
-      steps:
-      - setWeight: 50
-      - analysis:
-          templates:
-          - templateName: cpu-rate
-      - pause:
-          duration: 10m
-      - setWeight: 50
   template:
     metadata:
       labels:
