@@ -1,0 +1,24 @@
+
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: pingpong
+  namespace: main
+spec:
+  template:
+    metadata:
+      name: pingpong-serverless
+    spec:
+      containers:
+        - image: juslesan/pingpong
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgre
+                key: POSTGRESQL_PASSWORD
+          - name: POSTGRES_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: main-configmap
+                key: postgresql_database
